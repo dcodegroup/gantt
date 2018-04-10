@@ -7,7 +7,11 @@
             </div>
             <div class="col-graphic">
             </div>
-            <div class="col-text"><?= $this->config['labelCol'] ?></div>
+            <div class="col-text">
+                <p>
+                    <?= $this->config['labelCol'] ?>
+                </p>
+            </div>
         </div>
         <?= $this->columnsHeader ?>
     </div>
