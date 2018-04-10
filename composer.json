@@ -1,19 +1,14 @@
 {
     "name": "dcodegroup/gantt",
-    "description": "Simple Gantt chart",
+    "description": "Gantt Chart",
     "type": "library",
-    "license": "MIT",
+    "license": "mit",
     "authors": [
         {
             "name": "Lee Stevens",
             "email": "lee@dcode.com.au"
         }
     ],
-    "autoload": {
-        "psr-4": {
-            "DcodeGroup\\Gantt\\": "src"
-        }
-    },
-    "minimum-stability": "dev",
+    "minimum-stability": "alpha",
     "require": {}
 }
