@@ -1,0 +1,14 @@
+{
+    "name": "dcodegroup/gantt",
+    "description": "Gantt Chart",
+    "type": "library",
+    "license": "mit",
+    "authors": [
+        {
+            "name": "Lee Stevens",
+            "email": "lee@dcode.com.au"
+        }
+    ],
+    "minimum-stability": "alpha",
+    "require": {}
+}
