@@ -118,19 +118,21 @@ class Bar extends DcodeGroupBase
     public function titleAttr()
     {
         if (is_callable($this->gantt->barTitleAttrFunction)) {
-            return call_user_func_array($this->gantt->barTitleAttrFunction, [$this]);
-        } else {
-            return $this->text();
+            $text = call_user_func_array($this->gantt->barTitleAttrFunction, [$this]);
         }
+        return (isset($text))
+            ? $text
+            : $this->text();
     }
 
     public function dataTextAttr()
     {
         if (is_callable($this->gantt->barDataTextAttrFunction)) {
-            return call_user_func_array($this->gantt->barDataTextAttrFunction, [$this]);
-        } else {
-            return $this->titleAttr();
+            $text = call_user_func_array($this->gantt->barDataTextAttrFunction, [$this]);
         }
+        return (isset($text))
+            ? $text
+            : $this->titleAttr();
     }
 
     /**
