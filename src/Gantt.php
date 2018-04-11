@@ -67,6 +67,9 @@ class Gantt extends DcodeGroupBase
     public $barDataTextAttrFunction;
 
 
+    public $headRowLabel;
+
+
 
     public $barTitleAttrs = true;
     public $barTextShow = true;

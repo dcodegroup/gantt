@@ -1,25 +1,14 @@
 <?php /* @var $this \DcodeGroup\Gantt\Gantt */ ?>
-<div class="gpor-gantt">
+<div class="gpor-gantt"
+     data-expand-button-open="<?= $this->config['expandIconOpen'] ?>"
+     data-expand-button-close="<?= $this->config['expandIconClose'] ?>"
+>
     <div class="gg-header">
-        <div class="gg-row-label">
-            <div class="col-expand-hide-clickable">
-                <span class="fa fa-plus" data-closedstate="fa-plus" data-openstate="fa-minus"></span>
-            </div>
-            <div class="col-graphic">
-            </div>
-            <div class="col-text">
-                <p>
-                    <?= $this->config['labelCol'] ?>
-                </p>
-            </div>
-        </div>
+        <?= $this->headRowLabel ?>
         <?= $this->columnsHeader ?>
     </div>
     <?php foreach($this->rowGroups as $row): ?>
         <?= $row ?>
     <?php endforeach ?>
 </div>
-
-
-
 

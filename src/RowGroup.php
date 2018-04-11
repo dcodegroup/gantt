@@ -5,10 +5,10 @@ namespace DcodeGroup\Gantt;
 
 class RowGroup extends DcodeGroupBase
 {
-    public $icon;
-    public $label;
-    public $barText;
-    public $labelHref;
+    /**
+     * @var \DcodeGroup\Gantt\RowLabel
+     */
+    public $rowLabel;
 
     /**
      * @var \DcodeGroup\Gantt\RowSubGroup[]
@@ -72,4 +72,19 @@ class RowGroup extends DcodeGroupBase
         return $this->_barsGrid;
     }
     private $_barsGrid;
+
+
+    public function tasksText()
+    {
+        if ($this->_tasksText === null) {
+            $total_tasks = $this->bar->tasks;
+            if ($total_tasks === null) {
+                $this->_tasksText = false;
+            } else {
+                $this->_tasksText = '(' .$total_tasks . ' ' . str_plural('Task', $total_tasks) .')';
+            }
+        }
+        return $this->_tasksText;
+    }
+    private $_tasksText;
 }
