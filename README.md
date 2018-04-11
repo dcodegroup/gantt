@@ -1,14 +1,26 @@
 # gantt
-Simple Gantt chart
+Gantt chart
+
+`composer.json`
+```
+    "autoload": {
+        ...
+        "psr-4": {
+            ...,
+            "DcodeGroup\\": "vendor/dcodegroup/"
+        }
+    },
+```
+
 
 instantiate
 -----------
 ``` php
-$groupedCols = \Gpor\Gantt\DatesHelper::ganttColGroups(
+$groupedCols = \DcodeGroup\Gantt\DatesHelper::ganttColGroups(
     ($_GET['start'] ?? time()),
     ($_GET['end'] ?? null)
 );
-$gantt = \Gpor\Gantt\Factory::newGantt($groupedCols, $rows, ['isMobile' => $agent->isMobile()]);
+$gantt = \DcodeGroup\Gantt\Factory::newGantt($groupedCols, $rows, ['isMobile' => $agent->isMobile()]);
 
 ```
 
@@ -16,7 +28,7 @@ Config
 ------
 ``` php
 # custom bar text
-$gantt->barTextFunction = function(\Gpor\Gantt\Bar $bar) {
+$gantt->barTextFunction = function(\DcodeGroup\Gantt\Bar $bar) {
     return date('j M Y', strtotime($bar->start_date)) . ' - ' . date('j M Y', strtotime($bar->end_date));
 };
 

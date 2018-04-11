@@ -9,6 +9,6 @@
             "email": "lee@dcode.com.au"
         }
     ],
-    "minimum-stability": "alpha",
+    "minimum-stability": "stable",
     "require": {}
 }
