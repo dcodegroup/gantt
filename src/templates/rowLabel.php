@@ -1,20 +1,40 @@
 <?php /* @var $this \DcodeGroup\Gantt\RowLabel */ ?>
 <div class="gg-row-label">
-    <div class="col-expand-hide-clickable"></div>
-    <div class="col-graphic color-like-bar">
-        <i class="fa fa-circle-o" aria-hidden="true"></i>
-    </div>
-    <div class="col-text">
-        <?php if ($this->row->labelHref): ?>
-        <a href="<?= $this->row->labelHref ?>">
+    <?php if ( ! $this->mobileExpand): ?>
+        <div class="col-expand-hide-clickable">
+            <?php if (isset($this->expandIcon)): ?>
+                <span class="icon <?= $this->expandIcon ?> <?= $this->expandIconOpen ?>"></span>
+            <?php endif ?>
+        </div>
+    <?php endif ?>
+    <div class="col-graphic">
+        <?php if ($this->icon): ?>
+            <i class="icon <?= $this->icon ?>" aria-hidden="true"></i>
         <?php endif ?>
-            <h3><?= $this->row->rowLabelText ?>
-                <?php if ($this->row->totalTasks() !== false): ?>
-                <span class="tasks-text">(<?= $this->row->totalTasks() ?> <?= str_plural('Task', $this->row->totalTasks()) ?>)</span>
+        <?php if ($this->imgSrc): ?>
+            <img src="<?= $this->imgSrc ?>" onerror="this.style.display='none';" />
+        <?php endif ?>
+    </div>
+    <p class="col-text">
+        <?php if ($this->href): ?>
+        <a href="<?= $this->href ?>">
+        <?php endif ?>
+            <?= $this->text ?>
+            <?php if ($this->row && method_exists($this->row, 'tasksText')): ?>
+                <?php $tasks_text = $this->row->tasksText() ?>
+                <?php if ($tasks_text): ?>
+                    <span class="tasks-text"><?= $tasks_text ?></span>
                 <?php endif ?>
-            </h3>
-        <?php if ($this->row->labelHref): ?>
+            <?php endif ?>
+        <?php if ($this->href): ?>
         </a>
         <?php endif ?>
-    </div>
+    </p>
+    <?php if ($this->mobileExpand): ?>
+        <div class="col-expand-hide-clickable">
+            <span class="<?= $this->mobileExpand['cssClassCommon'] ?> <?= $this->mobileExpand['cssClassOpen'] ?>"
+                  data-closedstate="<?= $this->mobileExpand['cssClassOpen'] ?>"
+                  data-openstate="<?= $this->mobileExpand['cssClassClose'] ?>"></span>
+        </div>
+    <?php endif ?>
 </div>

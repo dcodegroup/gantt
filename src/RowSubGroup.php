@@ -12,10 +12,9 @@ class RowSubGroup extends DcodeGroupBase
     public $rows = [];
 
     /**
-     * @var string
+     * @var \DcodeGroup\Gantt\RowLabel
      */
-    public $label;
-    public $labelHref;
+    public $rowLabel;
 
     /**
      * UP ref

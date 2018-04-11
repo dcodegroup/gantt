@@ -9,8 +9,15 @@ class Factory
     public static function newGantt($columnGroupsData, $row_groups_data, $config = [])
     {
         $config = array_merge([
-            'isMobile'      => false,
-            'labelCol'      => 'Project Name',
+            'isMobile'              => false,
+            'labelCol'              => 'Project Name',
+            'expandIcon'            => 'fal',
+            'expandIconOpen'        => 'fa-plus',
+            'expandIconClose'       => 'fa-minus',
+            'expandIconMobile'      => 'fal',
+            'expandIconOpenMobile'  => 'fa-chevron-down',
+            'expandIconCloseMobile' => 'fa-chevron-up',
+            'rowIcon'               => 'fal fa-circle',
         ], $config);
         $gantt = new Gantt;
         $gantt->config = $config;
@@ -25,6 +32,11 @@ class Factory
             $gantt->rowGroups[] = $rowGroup;
             $rowGroup->i = count($gantt->rowGroups) - 1;
         }
+        $gantt->headRowLabel = self::newRowLabel([
+            'text'              => $config['labelCol'],
+            'expandIcon'        => $config['expandIcon'],
+            'expandIconOpen'    => $config['expandIconOpen'],
+        ]);
         return $gantt;
     }
 
@@ -35,10 +47,12 @@ class Factory
         return $columnsHeader;
     }
 
-    public static function newRowLabel(Row $row)
+    public static function newRowLabel($props)
     {
         $rowLabel = new RowLabel();
-        $rowLabel->row = $row;
+        foreach ($props as $pname => $val) {
+            $rowLabel->$pname = $val;
+        }
         return $rowLabel;
     }
 
@@ -65,15 +79,36 @@ class Factory
     {
         $rowGroup = new RowGroup;
         $rowGroup->gantt    = $gantt;
-        $rowGroup->icon     = $data['icon'];
-        $rowGroup->label    = $data['label'];
-        if (isset($data['labelHref'])) $rowGroup->labelHref = $data['labelHref'];
         foreach ($data['subgroups'] as $subgroup_data) {
             $rowSubGroup = self::newRowSubGroup($subgroup_data, $rowGroup);
             $rowGroup->rowSubGroups[] = $rowSubGroup;
         }
         $rowGroup->bar          = self::newBar($gantt, $data);
         $rowGroup->calculateTotals();
+        $rowLabelData = [
+            'text'              => $data['label'],
+            'imgSrc'            => $data['icon'],
+            'expandIcon'        => $gantt->config['expandIcon'],
+            'expandIconOpen'    => $gantt->config['expandIconOpen'],
+            'row'               => $rowGroup,
+        ];
+        if (isset($data['icon'])) {
+            $rowLabelData['icon'] = $data['icon'];
+        }
+        if (isset($data['imgSrc'])) {
+            $rowLabelData['imgSrc'] = $data['imgSrc'];
+        }
+        if (isset($data['labelHref'])) {
+            $rowLabelData['href'] = $data['labelHref'];
+        }
+        if ($gantt->config['isMobile']) {
+            $rowLabelData['mobileExpand'] = [
+                'cssClassCommon'    => $gantt->config['expandIconMobile'],
+                'cssClassOpen'      => $gantt->config['expandIconOpenMobile'],
+                'cssClassClose'     => $gantt->config['expandIconCloseMobile'],
+            ];
+        }
+        $rowGroup->rowLabel = self::newRowLabel($rowLabelData);
         return $rowGroup;
     }
 
@@ -111,8 +146,6 @@ class Factory
     {
         $rowSubGroup            = new RowSubGroup;
         $rowSubGroup->rowGroup  = $rowGroup;
-        $rowSubGroup->label     = $data['label'];
-        if (isset($data['labelHref'])) $rowSubGroup->labelHref = $data['labelHref'];
         if (isset($data['headRowCssClass'])) $rowSubGroup->headRowCssClass = $data['headRowCssClass'];
         foreach ($data['rows'] as $row_data) {
             $row = self::newRow($row_data, $rowSubGroup);
@@ -123,6 +156,10 @@ class Factory
         $rowSubGroup->bar       = $noBar;
         $rowSubGroup->calculateTotals();
         $rowSubGroup->mobileInfo = self::newMobileInfo($rowSubGroup);
+        $rowSubGroup->rowLabel = self::newRowLabel([
+            'text'              => $data['label'],
+            'href'              => (isset($data['labelHref']) ? $data['labelHref'] : null),
+        ]);
         return $rowSubGroup;
     }
 
@@ -131,8 +168,6 @@ class Factory
         $gantt = $rowSubGroup->rowGroup->gantt;
         $row = new Row;
         $row->subGroup      = $rowSubGroup;
-        $row->rowLabelText  = $data['rowLabel'];
-        if (isset($data['labelHref'])) $row->labelHref = $data['labelHref'];
         $row->cssClasses    = explode(' ', $data['cssClass']);
         $bars_data = (isset($data['bars']))
             ? $data['bars']
@@ -148,7 +183,22 @@ class Factory
             $bar->setPointsFromDates($bar_data['start'], $bar_data['end']);
             $row->bars[] = $bar;
         }
-        $row->rowLabelElement = self::newRowLabel($row);
+        $rowLabelData = [
+            'text'              => $data['rowLabel'],
+            'expandIcon'        => $gantt->config['expandIcon'],
+            'icon'              => $gantt->config['rowIcon'],
+            'row'               => $row,
+        ];
+        if (isset($data['icon'])) {
+            $rowLabelData['icon'] = $data['icon'];
+        }
+        if (isset($data['imgSrc'])) {
+            $rowLabelData['imgSrc'] = $data['imgSrc'];
+        }
+        if (isset($data['labelHref'])) {
+            $rowLabelData['href'] = $data['labelHref'];
+        }
+        $row->rowLabelElement = self::newRowLabel($rowLabelData);
         return $row;
     }
 
