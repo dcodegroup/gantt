@@ -87,7 +87,6 @@ class Factory
         $rowGroup->calculateTotals();
         $rowLabelData = [
             'text'              => $data['label'],
-            'imgSrc'            => $data['icon'],
             'expandIcon'        => $gantt->config['expandIcon'],
             'expandIconOpen'    => $gantt->config['expandIconOpen'],
             'row'               => $rowGroup,
