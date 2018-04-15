@@ -4,22 +4,22 @@ function GporGantt($el) {
     this.$header = $el.find('.gg-header');
     this.$expandAllButton = this.$header.find('.col-expand-hide-clickable');
     this.$expandAllButtonIcon = this.$expandAllButton.find('span');
-    this.clickableSpanClosed = this.$expandAllButtonIcon.attr('data-closedstate');
-    this.clickableSpanOpen = this.$expandAllButtonIcon.attr('data-openstate');
-    this.buttonWillExpand = this.$expandAllButtonIcon.hasClass(this.$expandAllButtonIcon.data('closedstate'));
+    this.expandButtonCssClassOpen = $el.data('expand-button-open');
+    this.expandButtonCssClassClose = $el.data('expand-button-close');
+    this.buttonWillExpand = this.$expandAllButtonIcon.hasClass(this.expandButtonCssClassOpen);
     var that = this;
     $el.find('.gg-group-head').each(function(){
-        that.rowGroups.push(new GanttRowGroup($(this)));
+        that.rowGroups.push(new GanttRowGroup($(this), that));
     });
     this.$expandAllButton.click(function(){
         that.allRowGroups(that.buttonWillExpand);
         that.buttonWillExpand = ( ! that.buttonWillExpand);
         if (that.buttonWillExpand) {
-            that.$expandAllButtonIcon.removeClass(that.clickableSpanOpen);
-            that.$expandAllButtonIcon.addClass(that.clickableSpanClosed);
+            that.$expandAllButtonIcon.removeClass(that.expandButtonCssClassClose);
+            that.$expandAllButtonIcon.addClass(that.expandButtonCssClassOpen);
         } else {
-            that.$expandAllButtonIcon.removeClass(that.clickableSpanClosed);
-            that.$expandAllButtonIcon.addClass(that.clickableSpanOpen);
+            that.$expandAllButtonIcon.removeClass(that.expandButtonCssClassOpen);
+            that.$expandAllButtonIcon.addClass(that.expandButtonCssClassClose);
         }
     });
 }
@@ -32,13 +32,12 @@ GporGantt.prototype.allRowGroups = function(toExpand) {
         }
     });
 };
-function GanttRowGroup($groupHead) {
+function GanttRowGroup($groupHead, gantt) {
     this.$groupHead = $groupHead;
+    this.gantt = gantt;
     this.i = $groupHead.attr('data-groupindex');
     this.$clickable = $groupHead.find('.col-expand-hide-clickable');
     this.$clickableSpan = this.$clickable.find('span');
-    this.clickableSpanClosed = this.$clickableSpan.attr('data-closedstate');
-    this.clickableSpanOpen = this.$clickableSpan.attr('data-openstate');
     this.$columnsOuterContainer = $('#gg-group-rows-'+this.i);
     this.$columnsInnerContainer = this.$columnsOuterContainer.find('.gg-group-rows-inner');
     this.isOpen = false;
@@ -62,14 +61,14 @@ GanttRowGroup.prototype.handleClick = function() {
 };
 GanttRowGroup.prototype.expand = function() {
     this.$columnsOuterContainer.css('height', this.$columnsInnerContainer.css('height'));
-    this.$clickableSpan.removeClass(this.clickableSpanClosed);
-    this.$clickableSpan.addClass(this.clickableSpanOpen);
+    this.$clickableSpan.removeClass(this.gantt.expandButtonCssClassOpen);
+    this.$clickableSpan.addClass(this.gantt.expandButtonCssClassClose);
     this.isOpen = true;
 };
 GanttRowGroup.prototype.fold = function() {
     this.$columnsOuterContainer.css('height', '0px');
-    this.$clickableSpan.removeClass(this.clickableSpanOpen);
-    this.$clickableSpan.addClass(this.clickableSpanClosed);
+    this.$clickableSpan.removeClass(this.gantt.expandButtonCssClassClose);
+    this.$clickableSpan.addClass(this.gantt.expandButtonCssClassOpen);
     this.isOpen = false;
 };
 function GanttRowSubGroup($el) {

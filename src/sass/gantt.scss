@@ -64,8 +64,8 @@ $gg-stroke: #ddd;
             font-size: 12px;
         }
         .col-expand-hide-clickable {
-            span {
-                top: 10px;
+            .icon {
+                top: 11px;
                 color: #888;
             }
         }
@@ -96,9 +96,9 @@ $gg-stroke: #ddd;
         }
     }
     .col-expand-hide-clickable {
-        span {
+        .icon {
             position: relative;
-            top: 15px;
+            top: 18px;
             left: 2px;
             color: #aaa;
             .gpor-gantt-mobile & {
@@ -121,19 +121,19 @@ $gg-stroke: #ddd;
                 height: $gg-row-outer-height;
             }
             .col-graphic {
-                .fa {
-                    font-size: 14px;
+                .icon {
                     position: relative;
-                    top: 10px;
+                    top: 12px;
+                    &:before {
+                        font-size: 18px;
+                    }
                 }
             }
             .col-text {
-                h3 {
-                    font-size: 12px;
-                    margin: 19px 0 0;
-                    .tasks-text {
-                        color: #999;
-                    }
+                font-size: 12px;
+                padding: 15px 0 0;
+                .tasks-text {
+                    color: #999;
                 }
             }
         }
@@ -267,50 +267,65 @@ $gg-stroke: #ddd;
         }
     }
 }
-$dept-color-metal: #259af3;
-$dept-color-electrical: #9C86E0;
-$dept-color-paint: #00B944;;
+$gg-color-blue: #259af3 !default;
+$gg-color-purple: #9C86E0 !default;
+$gg-color-green: #00B944 !default;
+$gg-color-pink: #f55a64 !default;
+$gg-color-grey: #777 !default;
 
 .gg-row-outer {
-    .color-like-bar .fa {
-        color: #888;
+    .icon {
+        color: $gg-color-grey;
     }
-    .gg-bar-color {
-        background-color: #888;
-    }
-}
-.dept-color-metal {
-    .color-like-bar .fa {
-        color: $dept-color-metal;
-    }
-    .gg-bar-color {
-        background-color: $dept-color-metal;
+    .gg-bar-color, &.gg-bar-color {
+        background-color: $gg-color-grey;
     }
 }
-.dept-color-electrical {
-    .color-like-bar .fa {
-        color: $dept-color-electrical;
+.gg-blue {
+    .icon {
+        color: $gg-color-blue;
     }
-    .gg-bar-color {
-        background-color: $dept-color-electrical;
+    .gg-bar-color, &.gg-bar-color {
+        background-color: $gg-color-blue;
     }
 }
-.dept-color-paint {
-    .color-like-bar .fa {
-        color: $dept-color-paint;
+.gg-purple {
+    .icon {
+        color: $gg-color-purple;
     }
-    .gg-bar-color {
-        background-color: $dept-color-paint;
+    .gg-bar-color, &.gg-bar-color {
+        background-color: $gg-color-purple;
+    }
+}
+.gg-green {
+    .icon {
+        color: $gg-color-green;
+    }
+    .gg-bar-color, &.gg-bar-color {
+        background-color: $gg-color-green;
     }
 }
 .gg-pink {
-    .color-like-bar .fa {
-        color: #f55a64;
+    .icon {
+        color: $gg-color-pink;
     }
-    .gg-bar-color {
-        background-color: #f55a64;
+    .gg-bar-color, &.gg-bar-color {
+        background-color: $gg-color-pink;
     }
 }
+.gg-grey {
+    .icon {
+        color: $gg-color-grey;
+    }
+    .gg-bar-color, &.gg-bar-color {
+        background-color: $gg-color-grey;
+    }
+}
+
+
+
+
+
 .gg-bar-color {
     &.bg-black {
         background-color: #333;
